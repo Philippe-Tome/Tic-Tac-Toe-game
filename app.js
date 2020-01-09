@@ -11,9 +11,9 @@ var playingPlayer = player1Name;
 var numberOfGames = 1;
 var player1Score = 0;
 var player2Score = 0;
-// var p1Sound = audioP1;
-// var p2Sound = audioP2;
 var nilGame = 0;
+var imgP1, imgP2, context1, context2;
+
 
 var allDivs = document.querySelectorAll('.box');
 var allAvatars = document.querySelectorAll('.cell');
@@ -25,7 +25,6 @@ var selectP1AvatarBtn = document.querySelector('.p1Select');
 var selectP2AvatarBtn = document.querySelector('.p2Select');
 var resetAvatarBtn = document.querySelector('.resetAvatar');
 
-// var audio = new Audio('audio_file.mp3');
 var audioError = new Audio('./sound/error_sound.mp3');
 var audioP1 = new Audio('./sound/default1.wav');
 var audioP2 = new Audio('./sound/default2.wav');
@@ -46,7 +45,6 @@ var handleNumGames = function () {
     document.querySelector('.displayGameLeft').textContent = `Games left = ${numberOfGames}`;
 }
 
-// This function handles everything when a winner wins 
 var winnerHandlingFn = function (winner){
     document.querySelector('.generalMessage').textContent = `The winner of this game is ${winner}`;
     if(winner === player1Name) {
@@ -158,29 +156,40 @@ var handleClick = function (event) {
         return
     }
     var boxClicked = event.target;
-    if ((boxClicked.classList.contains(player1Avatar)) || (boxClicked.classList.contains(player2Avatar))) {
+    if ((boxClicked.classList.contains(player1Avatar)) || (boxClicked.classList.contains(player2Avatar)) || (boxClicked.querySelector('img') !== null)) {
         console.log('already clicked')
         document.querySelector('.generalMessage').textContent = `This cell is already selected!`;
         return;
     }
     if(playingPlayer === player1Name) {
-        boxClicked.classList.add(player1Avatar)
+        if(imgP1) {
+            var imgTag = document.createElement('img')
+            imgTag.src = imgP1;
+            boxClicked.appendChild(imgTag);
+        } else {
+            boxClicked.classList.add(player1Avatar)
+        }
         counter++;
         audioP1.play();
         checkWinner();
         playingPlayer = player2Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
+        document.querySelector('.generalMessage').textContent = ``;
     } else {
-        boxClicked.classList.add(player2Avatar)
+        if(imgP2) {
+            var imgTag = document.createElement('img')
+            imgTag.src = imgP2;
+            boxClicked.appendChild(imgTag);
+        } else {
+            boxClicked.classList.add(player2Avatar)
+        }
         counter++;
         audioP2.play();
         checkWinner();
         playingPlayer = player1Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
+        document.querySelector('.generalMessage').textContent = ``;
     }
-    // if(counter === 9 && winner === null) {
-    //     nilGame = 1;
-    // }
     if((counter === 9) || winner !== null) {     // check for winner
         gameFinished = 1;      
     } 
@@ -202,6 +211,9 @@ var resetGame = function (){
     allDivs.forEach(function(div){
         div.classList.remove(player1Avatar)
         div.classList.remove(player2Avatar)
+        if(div.querySelector('img') !== null){
+            div.querySelector('img').remove();
+        }
     })
 }
 
@@ -293,175 +305,65 @@ selectP2AvatarBtn.addEventListener('click', selP2Avatar);
 resetAvatarBtn.addEventListener('click', resetAvatar);
 
 //===============================================================================
-// Video trials
+// Video
 
-document.addEventListener('DOMContentLoaded', function () {
+'use strict';
 
-    // References to all the element we will need.
-    var video = document.querySelector('#camera-stream'),
-        image = document.querySelector('#snap'),
-        start_camera = document.querySelector('#start-camera'),
-        controls = document.querySelector('.controls'),
-        take_photo_btn = document.querySelector('#take-photo'),
-        delete_photo_btn = document.querySelector('#delete-photo'),
-        download_photo_btn = document.querySelector('#download-photo'),
-        error_message = document.querySelector('#error-message');
+var personaliseAvBtn = document.querySelector('.personaliseAvatar');
+const video = document.getElementById('video');
+const canvas1 = document.getElementById('canvas1');
+const canvas2 = document.getElementById('canvas2');
+const snap1 = document.getElementById("snap1");
+const snap2 = document.getElementById("snap2");
+const errorMsgElement = document.querySelector('span#errorMsg');
+const picSize = 100;
 
+const constraints = {
+  audio: false,
+  video: {
+    width: picSize, height: picSize
+  }
+};
 
-    // The getUserMedia interface is used for handling camera input.
-    // Some browsers need a prefix so here we're covering all the options
-    navigator.getMedia = ( navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
-
-
-    if(!navigator.getMedia){
-        displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
-    }
-    else{
-
-        // Request the camera.
-        navigator.getMedia(
-            {
-                video: true
-            },
-            // Success Callback
-            function(stream){
-
-                // Create an object URL for the video stream and
-                // set it as src of our HTLM video element.
-                video.src = window.URL.createObjectURL(stream);
-
-                // Play the video element to start the stream.
-                video.play();
-                video.onplay = function() {
-                    showVideo();
-                };
-         
-            },
-            // Error Callback
-            function(err){
-                displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
-            }
-        );
-
-    }
-
-
-
-    // Mobile browsers cannot play video without user input,
-    // so here we're using a button to start it manually.
-    start_camera.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        // Start video playback manually.
-        video.play();
-        showVideo();
-
-    });
-
-
-    take_photo_btn.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        var snap = takeSnapshot();
-
-        // Show image. 
-        image.setAttribute('src', snap);
-        image.classList.add("visible");
-
-        // Enable delete and save buttons
-        delete_photo_btn.classList.remove("disabled");
-        download_photo_btn.classList.remove("disabled");
-
-        // Set the href attribute of the download button to the snap url.
-        download_photo_btn.href = snap;
-
-        // Pause video playback of stream.
-        video.pause();
-
-    });
-
-
-    delete_photo_btn.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        // Hide image.
-        image.setAttribute('src', "");
-        image.classList.remove("visible");
-
-        // Disable delete and save buttons
-        delete_photo_btn.classList.add("disabled");
-        download_photo_btn.classList.add("disabled");
-
-        // Resume playback of stream.
-        video.play();
-
-    });
-
-
-  
-    function showVideo(){
-        // Display the video stream and the controls.
-
-        hideUI();
-        video.classList.add("visible");
-        controls.classList.add("visible");
-    }
-
-
-    function takeSnapshot(){
-        // Here we're using a trick that involves a hidden canvas element.  
-
-        var hidden_canvas = document.querySelector('canvas'),
-            context = hidden_canvas.getContext('2d');
-
-        var width = video.videoWidth,
-            height = video.videoHeight;
-
-        if (width && height) {
-
-            // Setup a canvas with the same dimensions as the video.
-            hidden_canvas.width = width;
-            hidden_canvas.height = height;
-
-            // Make a copy of the current frame in the video on the canvas.
-            context.drawImage(video, 0, 0, width, height);
-
-            // Turn the canvas image into a dataURL that can be used as a src for our photo.
-            return hidden_canvas.toDataURL('image/png');
+// Access webcam
+async function init() {
+    if(counter === 0) {
+      try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(stream);
+        } catch (e) {
+            errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
         }
     }
+}
+
+// Success
+function handleSuccess(stream) {
+  window.stream = stream;
+  video.srcObject = stream;
+}
+
+context1 = canvas1.getContext('2d');
+context2 = canvas2.getContext('2d');
 
 
-    function displayErrorMessage(error_msg, error){
-        error = error || "";
-        if(error){
-            console.error(error);
+personaliseAvBtn.addEventListener('click', init);
+
+
+// Draw image
+snap1.addEventListener("click", function() {
+    if(counter === 0){
+        context1.drawImage(video, 0, 0, picSize, picSize);
+        imgP1 = canvas1.toDataURL();
         }
-
-        error_message.innerText = error_msg;
-
-        hideUI();
-        error_message.classList.add("visible");
-    }
-
-   
-    function hideUI(){
-        // Helper function for clearing the app UI.
-
-        controls.classList.remove("visible");
-        start_camera.classList.remove("visible");
-        video.classList.remove("visible");
-        snap.classList.remove("visible");
-        error_message.classList.remove("visible");
-    }
-
 });
+snap2.addEventListener("click", function() {
+    if(counter === 0) {
+        context2.drawImage(video, 0, 0, picSize, picSize);
+        imgP2 = canvas2.toDataURL();
+    }
+});
+
 
 
 
