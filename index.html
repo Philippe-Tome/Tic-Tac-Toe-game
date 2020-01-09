@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section>
+        <div class="heading">
+            <div class="player1">
+                <input class="player1NameInput" placeholder="Player 1 enter your name" type="text">
+                <button class="submitP1Name">Submit</button>
+            </div>
+            <div class="player2">
+                <input class="player2NameInput" placeholder="Player 2 enter your name" type="text">
+                <button class="submitP2Name">Submit</button>
+            </div>
+            <div class="currentPlayer"></div>
+            <div class="displayScore">Score</div>
+            <input type="number" class="numberGames" placeholder="Enter the number of games">
+            <button class="submitGames">Submit</button>
+            <div class="displayGameLeft"> </div>
+        </div>
+        <div class="wrapper">
+            <div class="box one"></div>
+            <div class="box two"></div>
+            <div class="box three"></div>
+            <div class="box four"></div>
+            <div class="box five"></div>
+            <div class="box six"></div>
+            <div class="box seven"></div>
+            <div class="box eight"></div>
+            <div class="box nine"></div>
+        </div>
+        <div class="generalMessage"></div>
+        <button class="resetBtn">Reset Game</button>
+    </section>
+
+
+    <section>
+        <button class="p1Select">Select Avatar for Player 1</button>
+        <button class="p2Select">Select Avatar for Player 2</button>
+        <button class="resetAvatar">Reset Avatar</button>
+        <div class="avatars">
+            <div class="cell avatar1" data-avatar='1'></div>
+            <div class="cell avatar2" data-avatar='2'></div>
+            <div class="cell avatar3" data-avatar='3'></div>
+            <div class="cell avatar4" data-avatar='4'></div>
+            <div class="cell avatar5" data-avatar='5'></div>
+            <div class="cell avatar6" data-avatar='6'></div>
+            <div class="cell avatar7" data-avatar='7'></div>
+            <div class="cell avatar8" data-avatar='8'></div>
+            <div class="cell avatar9" data-avatar='9'></div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="app">
+                <a href="#" id="start-camera" class="visible">Touch here to start the app.</a>
+                <video id="camera-stream"></video>
+                <img id="snap">
+                <p id="error-message"></p>
+                <div class="controls">
+                    <a href="#" id="delete-photo" title="Delete Photo" class="disabled"><i
+                            class="material-icons">delete</i></a>
+                    <a href="#" id="take-photo" title="Take Photo"><i class="material-icons">camera_alt</i></a>
+                    <a href="#" id="download-photo" download="selfie.png" title="Save Photo" class="disabled"><i
+                            class="material-icons">file_download</i></a>
+                </div>
+                <!-- Hidden canvas element. Used for taking snapshot of video. -->
+                <canvas></canvas>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="app.js"></script>
+</body>
+
+</html>
