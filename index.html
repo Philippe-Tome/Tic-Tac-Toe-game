@@ -10,6 +10,9 @@
 </head>
 
 <body>
+
+    <h1>Tic Tac Toe</h1>
+    <h1 class="winner">placeholder</h1>
     <section>
         <div class="heading">
             <div class="player1">
@@ -24,24 +27,50 @@
             <div class="displayScore">Score</div>
             <input type="number" class="numberGames" placeholder="Enter the number of games">
             <button class="submitGames">Submit</button>
-            <div class="displayGameLeft"> </div>
+            <div class="displayGameLeft">placeholder</div>
+            <div class="generalMessage"></div>
+
         </div>
-        <div class="wrapper">
-            <div class="box one"></div>
-            <div class="box two"></div>
-            <div class="box three"></div>
-            <div class="box four"></div>
-            <div class="box five"></div>
-            <div class="box six"></div>
-            <div class="box seven"></div>
-            <div class="box eight"></div>
-            <div class="box nine"></div>
+        <div class="containerLeft">
+            <div class="wrapper">
+                <div class="box one"></div>
+                <div class="box two"></div>
+                <div class="box three"></div>
+                <div class="box four"></div>
+                <div class="box five"></div>
+                <div class="box six"></div>
+                <div class="box seven"></div>
+                <div class="box eight"></div>
+                <div class="box nine"></div>
+            </div>
+            <button class="resetBtn">Reset Game</button>
+            <section>
+                <!-- Stream video via webcam -->
+
+                <!-- Trigger canvas web API -->
+
+                <div class="controller">
+                    <p><strong> Personalise your avatar by taking a selfie</strong></p>
+                    <button class="personaliseAvatar">Photo Avatar</button>
+                    <button id="snap1">Capture P1</button>
+                    <button id="snap2">Capture P2</button>
+                </div>
+
+                <!-- Webcam video snapshot -->
+                <div class="video-wrap">
+                    <video id="video" playsinline autoplay></video>
+                </div>
+                <div class="photoAvatar">
+                    <canvas id="canvas1" width="100" height="100"></canvas>
+                    <canvas id="canvas2" width="100" height="100"></canvas>
+                </div>
         </div>
-        <div class="generalMessage"></div>
-        <button class="resetBtn">Reset Game</button>
+
+
+    </section>
     </section>
 
-    <section>
+    <section class="avatarSelect">
         <button class="p1Select">Select Avatar for Player 1</button>
         <button class="p2Select">Select Avatar for Player 2</button>
         <button class="resetAvatar">Reset Avatar</button>
@@ -60,26 +89,7 @@
 
     <!-- Test Camera -->
 
-    <section>
-        <!-- Stream video via webcam -->
-        <div class="video-wrap">
-            <video id="video" playsinline autoplay></video>
-        </div>
 
-        <!-- Trigger canvas web API -->
-        <div class="controller">
-            <button class="personaliseAvatar">personalise Avatar</button>
-            <button id="snap1">Capture P1</button>
-            <button id="snap2">Capture P2</button>
-        </div>
-
-        <!-- Webcam video snapshot -->
-        <div class="photoAvatar">
-            <canvas id="canvas1" width="100" height="100"></canvas>
-            <canvas id="canvas2" width="100" height="100"></canvas>
-        </div>
-
-    </section>
 
     <script src="app.js"></script>
 </body>

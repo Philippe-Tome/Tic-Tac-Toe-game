@@ -1,31 +1,52 @@
 body {
-    /* background-color: #F4F4F4; */
+    background-color: lightgray;
 }
 
-section {
-    display: inline-block;
+h1 {
+    padding: 5px;
+    border: solid black 3px;
+    text-align: center;
+}
+
+.winner {
+    color: red;
+    border-color: lightgray;
+    
 }
 
 .box {
     border: black solid 1px;
 }
 
-.wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    height: 300px;
-    width: 300px;
-
+.containerLeft {
+    float: left;
+    margin-left: 20%;
 }
 
+.avatarSelect {
+    float: right;
+    margin-right: 20%;
+}
+
+.wrapper {
+    display: grid;
+    background-color: white;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    margin-bottom: 5px;
+}
+
+.cell{
+    border: white solid 2px ;
+}
 
 .avatars {
-    display: none;
+    border: white solid 2px ;
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     height: 300px;
     width: 300px;
-    border: 1px solid black;
+    margin: 10px auto;
 }
 
 .resetBtn {
@@ -33,17 +54,21 @@ section {
 }
 .heading {
     display: inline;
+    padding: 10px;
 }
 
 .cross{
     background-image: url(./avatars/cross.png);
     background-repeat: no-repeat;
     background-size: contain;
+    opacity: 1;
 }
 .circle{
     background-image: url(./avatars/circle.png);
     background-repeat: no-repeat;
     background-size: contain;
+    /* margin-bottom: 10px; */
+    opacity: 1;
 }
 
 .avatar1{
@@ -101,6 +126,4 @@ section {
     background-size: contain;
     opacity: 1;
 }
-
-/* Test Camera */
 

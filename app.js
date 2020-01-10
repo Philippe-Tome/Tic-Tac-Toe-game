@@ -12,6 +12,7 @@ var numberOfGames = 1;
 var player1Score = 0;
 var player2Score = 0;
 var nilGame = 0;
+var match = 0;
 var imgP1, imgP2, context1, context2;
 
 
@@ -28,10 +29,13 @@ var resetAvatarBtn = document.querySelector('.resetAvatar');
 var audioError = new Audio('./sound/error_sound.mp3');
 var audioP1 = new Audio('./sound/default1.wav');
 var audioP2 = new Audio('./sound/default2.wav');
-var audioResAv = new Audio('./sound/resAv.wav');
+var audioGameWin = new Audio('./sound/win.wav');
+var audioResAv = new Audio('./sound/resAv.mp3');
 var audioThankYou = new Audio('./sound/thankYou.wav');
+var audioCamera = new Audio('./sound/camera.mp3');
 
-
+document.querySelector('.displayGameLeft').style.color = 'lightgray';
+document.querySelector('.winner').style.color = 'lightgray';
 document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
 document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
 
@@ -40,26 +44,43 @@ var handleNumGames = function () {
     numberOfGames = Number(document.querySelector('.numberGames').value);
     if(numberOfGames === 0) {
         numberOfGames = 1;
+    } else if(numberOfGames > 1) {
+        match = 1;
     }
     console.log(numberOfGames);
     document.querySelector('.displayGameLeft').textContent = `Games left = ${numberOfGames}`;
 }
 
 var winnerHandlingFn = function (winner){
-    document.querySelector('.generalMessage').textContent = `The winner of this game is ${winner}`;
+    audioGameWin.play();
+    // document.querySelector('.generalMessage').textContent = `The winner of this game is ${winner}`;
+    document.querySelector('.winner').textContent = `The winner of this game is ${winner}`;
+    document.querySelector('.winner').style.color = 'red';
     if(winner === player1Name) {
         player1Score++
     } else {
         player2Score++
     }
     document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
-    if(numberOfGames > 0) {
+    if(numberOfGames > 1) {
         numberOfGames -= 1;
         document.querySelector('.displayGameLeft').textContent = `Games left = ${numberOfGames}`;
+        document.querySelector('.displayGameLeft').style.color = 'black';
     } else {
         document.querySelector('.displayGameLeft').textContent = `Games left = 0`;
-
+        document.querySelector('.displayGameLeft').style.color = 'black';
+        if(match) {
+            if (player1Score > player2Score) {
+                console.log(`player 1 wins the match`)
+                document.querySelector('.winner').textContent = `The winner of this match is ${player1Name}`;
+                document.querySelector('.winner').style.color = 'red';
+            } else {
+                document.querySelector('.winner').textContent = `The winner of this match is ${player2Name}`;
+                document.querySelector('.winner').style.color = 'red';
+            }
+        }
     }
+
 }
 
 var checkWinner = function () {
@@ -162,33 +183,31 @@ var handleClick = function (event) {
         return;
     }
     if(playingPlayer === player1Name) {
-        if(imgP1) {
+        if(imgP1){
             var imgTag = document.createElement('img')
             imgTag.src = imgP1;
             boxClicked.appendChild(imgTag);
-        } else {
-            boxClicked.classList.add(player1Avatar)
         }
+        boxClicked.classList.add(player1Avatar)
         counter++;
         audioP1.play();
         checkWinner();
         playingPlayer = player2Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
-        document.querySelector('.generalMessage').textContent = ``;
+        // document.querySelector('.generalMessage').textContent = ``;
     } else {
-        if(imgP2) {
+        if(imgP2){
             var imgTag = document.createElement('img')
             imgTag.src = imgP2;
             boxClicked.appendChild(imgTag);
-        } else {
-            boxClicked.classList.add(player2Avatar)
         }
+        boxClicked.classList.add(player2Avatar)
         counter++;
         audioP2.play();
         checkWinner();
         playingPlayer = player1Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
-        document.querySelector('.generalMessage').textContent = ``;
+        // document.querySelector('.generalMessage').textContent = ``;
     }
     if((counter === 9) || winner !== null) {     // check for winner
         gameFinished = 1;      
@@ -205,6 +224,8 @@ var resetGame = function (){
         player1Score = 0;
         player2Score = 0;
     }
+    document.querySelector('.winner').style.color = 'lightgray';
+    // document.querySelector('.winner').textContent = '';
     document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
     document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
     document.querySelector('.generalMessage').textContent = ``;
@@ -218,47 +239,65 @@ var resetGame = function (){
 }
 
 var p1Name = function () {
-    player1Name = document.querySelector('.player1NameInput').value;
-    playingPlayer = player1Name;
+    if(document.querySelector('.player1NameInput').value === player2Name) {
+        document.querySelector('.generalMessage').textContent = `This name has already been taken!`;
+        return;
+    } else if(document.querySelector('.player1NameInput').value === '') {
+        player1Name = "Player 1"
+    } else {
+        player1Name = document.querySelector('.player1NameInput').value;
+        playingPlayer = player1Name;
+    }
     document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
     document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
 }
 
 var p2Name = function () {
-    player2Name = document.querySelector('.player2NameInput').value;
+    if(document.querySelector('.player2NameInput').value === player1Name) {
+        document.querySelector('.generalMessage').textContent = `This name has already been taken!`;
+        return;
+    } else if (document.querySelector('.player2NameInput').value === '') {
+        player2Name = "Player 2"
+    } else {
+        player2Name = document.querySelector('.player2NameInput').value;
+    }
     document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
 }
 
 var handleP1AvatarClick = function (event) {
-    var avatarClicked = event.target;
-    if((`avatar${avatarClicked.dataset.avatar}`) === player2Avatar) {
-        console.log('avatar already selected');
-        return;
-    } else {
-    avatarClicked.style.opacity = '0.3';
-    player1Avatar = `avatar${avatarClicked.dataset.avatar}`;
-    audioP1 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
-    document.querySelector('.avatars').style.display = 'none';
-    }
+    if(player1Avatar === 'cross'){
+        var avatarClicked = event.target;
+        if((`avatar${avatarClicked.dataset.avatar}`) === player2Avatar) {
+            console.log('avatar already selected');
+            return;
+        } else {
+        avatarClicked.style.opacity = '0.3';
+        player1Avatar = `avatar${avatarClicked.dataset.avatar}`;
+        audioP1 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
+        // document.querySelector('.avatars').style.display = 'none';
+        }
+    } return;
 }
 
 var handleP2AvatarClick = function (event) {
-    var avatarClicked = event.target;
-    if((`avatar${avatarClicked.dataset.avatar}`) === player1Avatar){
-        console.log('avatar already selected');
-        return;
-    } else {
-        // document.querySelector(`.${player2Avatar}`).style.opacity = '1';
-        // console.log(avatarClicked);
-        avatarClicked.style.opacity = '0.3';
-        player2Avatar = `avatar${avatarClicked.dataset.avatar}`;
-        audioP2 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
-        document.querySelector('.avatars').style.display = 'none';
-    }
+    if(player2Avatar === 'circle') {
+        var avatarClicked = event.target;
+        if((`avatar${avatarClicked.dataset.avatar}`) === player1Avatar){
+            console.log('avatar already selected');
+            return;
+        } else {
+            // document.querySelector(`.${player2Avatar}`).style.opacity = '1';
+            // console.log(avatarClicked);
+            avatarClicked.style.opacity = '0.3';
+            player2Avatar = `avatar${avatarClicked.dataset.avatar}`;
+            audioP2 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
+            // document.querySelector('.avatars').style.display = 'none';
+        }
+    } return;
 }
 
 var selP1Avatar = function () {
-    if(player1Avatar === 'cross' && !counter) {
+    if(player1Avatar === 'cross' && !counter && !imgP1) {
         document.querySelector('.avatars').style.display = 'grid';
         allAvatars.forEach(function(avatar){
             avatar.removeEventListener('click', handleP2AvatarClick)
@@ -270,7 +309,7 @@ var selP1Avatar = function () {
 }
 
 var selP2Avatar = function () {
-    if(player2Avatar === 'circle' && !counter) {
+    if(player2Avatar === 'circle' && !counter && !imgP2) {
         document.querySelector('.avatars').style.display = 'grid';
         allAvatars.forEach(function(avatar){
             avatar.removeEventListener('click', handleP1AvatarClick)
@@ -286,6 +325,12 @@ var resetAvatar = function () {
         audioResAv.play();
         player1Avatar = 'cross';
         player2Avatar = 'circle';
+        imgP1 = 0;
+        imgP2 = 0;
+        allAvatars.forEach(function(avatar){
+            avatar.removeEventListener('click', handleP1AvatarClick)
+            avatar.removeEventListener('click', handleP2AvatarClick)
+        });
         document.querySelectorAll('.cell').forEach(function(el) {
             el.style.opacity = 1;
         });
@@ -352,12 +397,14 @@ personaliseAvBtn.addEventListener('click', init);
 
 // Draw image
 snap1.addEventListener("click", function() {
+    audioCamera.play();
     if(counter === 0){
         context1.drawImage(video, 0, 0, picSize, picSize);
         imgP1 = canvas1.toDataURL();
         }
 });
 snap2.addEventListener("click", function() {
+    audioCamera.play();
     if(counter === 0) {
         context2.drawImage(video, 0, 0, picSize, picSize);
         imgP2 = canvas2.toDataURL();
