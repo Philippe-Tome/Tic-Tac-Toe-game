@@ -53,7 +53,6 @@ var handleNumGames = function () {
 
 var winnerHandlingFn = function (winner){
     audioGameWin.play();
-    // document.querySelector('.generalMessage').textContent = `The winner of this game is ${winner}`;
     document.querySelector('.winner').textContent = `The winner of this game is ${winner}`;
     document.querySelector('.winner').style.color = 'red';
     if(winner === player1Name) {
@@ -194,7 +193,6 @@ var handleClick = function (event) {
         checkWinner();
         playingPlayer = player2Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
-        // document.querySelector('.generalMessage').textContent = ``;
     } else {
         if(imgP2){
             var imgTag = document.createElement('img')
@@ -207,7 +205,6 @@ var handleClick = function (event) {
         checkWinner();
         playingPlayer = player1Name;
         document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
-        // document.querySelector('.generalMessage').textContent = ``;
     }
     if((counter === 9) || winner !== null) {     // check for winner
         gameFinished = 1;      
@@ -225,7 +222,6 @@ var resetGame = function (){
         player2Score = 0;
     }
     document.querySelector('.winner').style.color = 'lightgray';
-    // document.querySelector('.winner').textContent = '';
     document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
     document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
     document.querySelector('.generalMessage').textContent = ``;
@@ -274,7 +270,6 @@ var handleP1AvatarClick = function (event) {
         avatarClicked.style.opacity = '0.3';
         player1Avatar = `avatar${avatarClicked.dataset.avatar}`;
         audioP1 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
-        // document.querySelector('.avatars').style.display = 'none';
         }
     } return;
 }
@@ -283,15 +278,11 @@ var handleP2AvatarClick = function (event) {
     if(player2Avatar === 'circle') {
         var avatarClicked = event.target;
         if((`avatar${avatarClicked.dataset.avatar}`) === player1Avatar){
-            console.log('avatar already selected');
             return;
         } else {
-            // document.querySelector(`.${player2Avatar}`).style.opacity = '1';
-            // console.log(avatarClicked);
             avatarClicked.style.opacity = '0.3';
             player2Avatar = `avatar${avatarClicked.dataset.avatar}`;
             audioP2 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
-            // document.querySelector('.avatars').style.display = 'none';
         }
     } return;
 }
@@ -413,47 +404,3 @@ snap2.addEventListener("click", function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// allItems.forEach(function(item){
-//     item.addEventListener('click', handleClick);
-// });
-// console.log(boxClicked);
-// console.log(`you clicked ${boxClicked.classList}`);
-// console.log(document.querySelectorAll('.circle').length);
-// boxClicked.style.backgroundColor = 'red';
-// boxClicked.classList.toggle('completed')
-// if (itemClicked.classList)
-// console.log(itemClicked.classList);
-// (document.querySelectorAll('.completed'.length === 6)
-// document.querySelectorAll('.item')[0].classList.contains('cats')
