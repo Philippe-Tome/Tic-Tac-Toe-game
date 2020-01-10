@@ -403,4 +403,39 @@ snap2.addEventListener("click", function() {
 });
 
 
+//===============================================================================
+// Arrow key function
 
+var keyControlTracking = 5;
+
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+    // e = e || window.event;
+
+    if (e.keyCode == '38') {
+        keyControlTracking -= 3;
+        console.log(`key up`);
+        // up arrow
+    }
+    else if (e.keyCode == '40') {
+        keyControlTracking += 3;
+        console.log(`key down`);
+        // down arrow
+    }
+    else if (e.keyCode == '37') {
+        keyControlTracking -= 1;
+        console.log(`key left`);
+       // left arrow
+    }
+    else if (e.keyCode == '39') {
+        keyControlTracking += 1;
+        console.log(`key right`);
+       // right arrow
+    }
+    else if (e.keyCode == '13') {
+        console.log(`key enter`);
+       // enter
+    }
+}
