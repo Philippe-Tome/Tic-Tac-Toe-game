@@ -8,6 +8,42 @@ h1 {
     text-align: center;
 }
 
+p {
+    text-align: center;
+}
+
+.firstPage {
+    display: block;
+}
+
+.secondPage{
+    display: block;
+}
+
+.startBtn {
+    inline-size: -webkit-fill-available;
+    background-color: green;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+.resetAvatar {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+.inputs {
+    margin: 0 auto;
+    inline-size: fit-content;
+}
+
+.avatarController {
+    margin: 25px auto;
+    inline-size: fit-content;
+}
+
 .winner {
     color: red;
     border-color: lightgray;
@@ -19,18 +55,18 @@ h1 {
 }
 
 .containerLeft {
-    float: left;
+    /* float: left; */
     margin-left: 20%;
 }
 
-.avatarSelect {
+/* .avatarSelect {
     float: right;
     margin-right: 20%;
-}
+} */
 
 .wrapper {
     display: grid;
-    background-color: white;
+    /* background-color: white; */
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     margin-bottom: 5px;
@@ -47,6 +83,7 @@ h1 {
     height: 300px;
     width: 300px;
     margin: 10px auto;
+    /* background-color: white; */
 }
 
 .resetBtn {

@@ -12,9 +12,16 @@
 <body>
 
     <h1>Tic Tac Toe</h1>
-    <h1 class="winner">placeholder</h1>
-    <section>
-        <div class="heading">
+    <div class="firstPage">
+        <p>Welcome to the Tic Tac Toe game. You can start playing by pressing "START" straight away or you can add the
+            player's names, the number of rounds you would like to play. You can also choose your own avatar or even
+            better
+            making you own by taking a selfie.</p>
+        <div class="start">
+            <button class="startBtn">START</button>
+            <button class="resetAvatar">Reset Avatar and all Entries</button>
+        </div>
+        <div class="inputs">
             <div class="player1">
                 <input class="player1NameInput" placeholder="Player 1 enter your name" type="text">
                 <button class="submitP1Name">Submit</button>
@@ -23,13 +30,50 @@
                 <input class="player2NameInput" placeholder="Player 2 enter your name" type="text">
                 <button class="submitP2Name">Submit</button>
             </div>
-            <div class="currentPlayer"></div>
-            <div class="displayScore">Score</div>
             <input type="number" class="numberGames" placeholder="Enter the number of games">
             <button class="submitGames">Submit</button>
+        </div>
+        <div class="avatarSelect">
+            <div class="selectAvBtn">
+                <!-- <button class="p1Select">Select Avatar for Player 1</button>
+                <button class="p2Select">Select Avatar for Player 2</button> -->
+                <!-- <button class="resetAvatar">Reset Avatar</button> -->
+            </div>
+            <div class="avatars">
+                <div class="cell avatar1" data-avatar='1'></div>
+                <div class="cell avatar2" data-avatar='2'></div>
+                <div class="cell avatar3" data-avatar='3'></div>
+                <div class="cell avatar4" data-avatar='4'></div>
+                <div class="cell avatar5" data-avatar='5'></div>
+                <div class="cell avatar6" data-avatar='6'></div>
+                <div class="cell avatar7" data-avatar='7'></div>
+                <div class="cell avatar8" data-avatar='8'></div>
+                <div class="cell avatar9" data-avatar='9'></div>
+            </div>
+        </div>
+        <div class="avatarController">
+            <p><strong> Personalise your avatar by taking a selfie</strong></p>
+            <button class="personaliseAvatar">Photo Avatar</button>
+            <button id="snap1">Capture P1</button>
+            <button id="snap2">Capture P2</button>
+            <div class="video-wrap">
+                <video id="video" playsinline autoplay></video>
+            </div>
+            <div class="photoAvatar">
+                <canvas id="canvas1" width="100" height="100"></canvas>
+                <canvas id="canvas2" width="100" height="100"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="secondPage">
+        <h1 class="winner">placeholder</h1>
+        <div class="heading">
+            <div class="currentPlayer"></div>
+            <div class="displayScore">Score</div>
             <div class="displayGameLeft">placeholder</div>
             <div class="generalMessage"></div>
-
         </div>
         <div class="containerLeft">
             <div class="wrapper">
@@ -44,51 +88,9 @@
                 <div class="box nine"></div>
             </div>
             <button class="resetBtn">Reset Game</button>
-            <section>
-                <!-- Stream video via webcam -->
-
-                <!-- Trigger canvas web API -->
-
-                <div class="controller">
-                    <p><strong> Personalise your avatar by taking a selfie</strong></p>
-                    <button class="personaliseAvatar">Photo Avatar</button>
-                    <button id="snap1">Capture P1</button>
-                    <button id="snap2">Capture P2</button>
-                </div>
-
-                <!-- Webcam video snapshot -->
-                <div class="video-wrap">
-                    <video id="video" playsinline autoplay></video>
-                </div>
-                <div class="photoAvatar">
-                    <canvas id="canvas1" width="100" height="100"></canvas>
-                    <canvas id="canvas2" width="100" height="100"></canvas>
-                </div>
+            <button class="homeBtn">Back Home</button>
         </div>
-
-
-    </section>
-    </section>
-
-    <section class="avatarSelect">
-        <button class="p1Select">Select Avatar for Player 1</button>
-        <button class="p2Select">Select Avatar for Player 2</button>
-        <button class="resetAvatar">Reset Avatar</button>
-        <div class="avatars">
-            <div class="cell avatar1" data-avatar='1'></div>
-            <div class="cell avatar2" data-avatar='2'></div>
-            <div class="cell avatar3" data-avatar='3'></div>
-            <div class="cell avatar4" data-avatar='4'></div>
-            <div class="cell avatar5" data-avatar='5'></div>
-            <div class="cell avatar6" data-avatar='6'></div>
-            <div class="cell avatar7" data-avatar='7'></div>
-            <div class="cell avatar8" data-avatar='8'></div>
-            <div class="cell avatar9" data-avatar='9'></div>
-        </div>
-    </section>
-
-    <!-- Test Camera -->
-
+    </div>
 
 
     <script src="app.js"></script>

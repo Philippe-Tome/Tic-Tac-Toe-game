@@ -18,13 +18,45 @@ var imgP1, imgP2, context1, context2;
 
 var allDivs = document.querySelectorAll('.box');
 var allAvatars = document.querySelectorAll('.cell');
+var startBtn = document.querySelector('.startBtn');
+var homeBtn = document.querySelector('.homeBtn');
 var resetBtn = document.querySelector('.resetBtn');
 var submitGameBtn = document.querySelector('.submitGames');
 var submitP1Btn = document.querySelector('.submitP1Name');
 var submitP2Btn = document.querySelector('.submitP2Name');
-var selectP1AvatarBtn = document.querySelector('.p1Select');
-var selectP2AvatarBtn = document.querySelector('.p2Select');
 var resetAvatarBtn = document.querySelector('.resetAvatar');
+var firstPage = document.querySelector('.firstPage');
+var secondPage = document.querySelector('.secondPage');
+var displayGameLeft = document.querySelector('.displayGameLeft');
+var winnerClass = document.querySelector('.winner');
+var displayScoreClass = document.querySelector('.displayScore');
+var currentPlayerClass = document.querySelector('.currentPlayer');
+var oneClass = document.querySelector('.one');
+var twoClass = document.querySelector('.two');
+var threeClass = document.querySelector('.three');
+var fourClass = document.querySelector('.four');
+var fiveClass = document.querySelector('.five');
+var sixClass = document.querySelector('.six');
+var sevenClass = document.querySelector('.seven');
+var eightClass = document.querySelector('.eight');
+var nineClass = document.querySelector('.nine');
+var generalMessage = document.querySelector('.generalMessage');
+var player1NameInputClass = document.querySelector('.player1NameInput');
+var player2NameInputClass = document.querySelector('.player2NameInput');
+var avatarsClass = document.querySelector('.avatars');
+var cellClass = document.querySelectorAll('.cell');
+var personaliseAvBtn = document.querySelector('.personaliseAvatar');
+var video = document.getElementById('video');
+var canvas1 = document.getElementById('canvas1');
+var canvas2 = document.getElementById('canvas2');
+var snap1 = document.getElementById("snap1");
+var snap2 = document.getElementById("snap2");
+var errorMsgElement = document.querySelector('span#errorMsg');
+
+
+
+// var selectP1AvatarBtn = document.querySelector('.p1Select');
+// var selectP2AvatarBtn = document.querySelector('.p2Select');
 
 var audioError = new Audio('./sound/error_sound.mp3');
 var audioP1 = new Audio('./sound/default1.wav');
@@ -34,48 +66,63 @@ var audioResAv = new Audio('./sound/resAv.mp3');
 var audioThankYou = new Audio('./sound/thankYou.wav');
 var audioCamera = new Audio('./sound/camera.mp3');
 
-document.querySelector('.displayGameLeft').style.color = 'lightgray';
-document.querySelector('.winner').style.color = 'lightgray';
-document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
-document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
 
+
+// firstPage.style.display = 'none';
+secondPage.style.display = 'none';
+
+displayGameLeft.style.color = 'lightgray';
+winnerClass.style.color = 'lightgray';
+displayScoreClass.textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
+currentPlayerClass.textContent = `${playingPlayer} is playing`;
+
+
+var startGame = function() {
+    firstPage.style.display = 'none';
+    secondPage.style.display = 'block';
+}
+
+var home = function() {
+    firstPage.style.display = 'block';
+    secondPage.style.display = 'none';
+}
 
 var handleNumGames = function () {
-    numberOfGames = Number(document.querySelector('.numberGames').value);
+    numberOfGames = Number(numberOfGames.value);
     if(numberOfGames === 0) {
         numberOfGames = 1;
     } else if(numberOfGames > 1) {
         match = 1;
     }
     console.log(numberOfGames);
-    document.querySelector('.displayGameLeft').textContent = `Games left = ${numberOfGames}`;
+    displayGameLeft.textContent = `Games left = ${numberOfGames}`;
 }
 
 var winnerHandlingFn = function (winner){
     audioGameWin.play();
-    document.querySelector('.winner').textContent = `The winner of this game is ${winner}`;
-    document.querySelector('.winner').style.color = 'red';
+    winnerClass.textContent = `The winner of this game is ${winner}`;
+    winnerClass.style.color = 'red';
     if(winner === player1Name) {
         player1Score++
     } else {
         player2Score++
     }
-    document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
+    displayScoreClass.textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
     if(numberOfGames > 1) {
         numberOfGames -= 1;
-        document.querySelector('.displayGameLeft').textContent = `Games left = ${numberOfGames}`;
-        document.querySelector('.displayGameLeft').style.color = 'black';
+        displayGameLeft.textContent = `Games left = ${numberOfGames}`;
+        displayGameLeft.style.color = 'black';
     } else {
-        document.querySelector('.displayGameLeft').textContent = `Games left = 0`;
-        document.querySelector('.displayGameLeft').style.color = 'black';
+        displayGameLeft.textContent = `Games left = 0`;
+        displayGameLeft.style.color = 'black';
         if(match) {
             if (player1Score > player2Score) {
                 console.log(`player 1 wins the match`)
-                document.querySelector('.winner').textContent = `The winner of this match is ${player1Name}`;
-                document.querySelector('.winner').style.color = 'red';
+                winnerClass.textContent = `The winner of this match is ${player1Name}`;
+                winnerClass.style.color = 'red';
             } else {
-                document.querySelector('.winner').textContent = `The winner of this match is ${player2Name}`;
-                document.querySelector('.winner').style.color = 'red';
+                winnerClass.textContent = `The winner of this match is ${player2Name}`;
+                winnerClass.style.color = 'red';
             }
         }
     }
@@ -84,90 +131,90 @@ var winnerHandlingFn = function (winner){
 
 var checkWinner = function () {
     // Check all winning conditions for player 1:
-    if (document.querySelector('.one').classList.contains(player1Avatar) &&
-        document.querySelector('.two').classList.contains(player1Avatar) &&
-        document.querySelector('.three').classList.contains(player1Avatar)) {
+    if (oneClass.classList.contains(player1Avatar) &&
+        twoClass.classList.contains(player1Avatar) &&
+        threeClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.four').classList.contains(player1Avatar) &&
-        document.querySelector('.five').classList.contains(player1Avatar) &&
-        document.querySelector('.six').classList.contains(player1Avatar)) {
+    } else if (fourClass.classList.contains(player1Avatar) &&
+        fiveClass.classList.contains(player1Avatar) &&
+        sixClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.seven').classList.contains(player1Avatar) &&
-        document.querySelector('.eight').classList.contains(player1Avatar) &&
-        document.querySelector('.nine').classList.contains(player1Avatar)) {
+    } else if (sevenClass.classList.contains(player1Avatar) &&
+        eightClass.classList.contains(player1Avatar) &&
+        nineClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.one').classList.contains(player1Avatar) &&
-        document.querySelector('.four').classList.contains(player1Avatar) &&
-        document.querySelector('.seven').classList.contains(player1Avatar)) {
+    } else if (oneClass.classList.contains(player1Avatar) &&
+        fourClass.classList.contains(player1Avatar) &&
+        sevenClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.two').classList.contains(player1Avatar) &&
-        document.querySelector('.five').classList.contains(player1Avatar) &&
-        document.querySelector('.eight').classList.contains(player1Avatar)) {
+    } else if (twoClass.classList.contains(player1Avatar) &&
+        fiveClass.classList.contains(player1Avatar) &&
+        eightClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.three').classList.contains(player1Avatar) &&
-        document.querySelector('.six').classList.contains(player1Avatar) &&
-        document.querySelector('.nine').classList.contains(player1Avatar)) {
+    } else if (threeClass.classList.contains(player1Avatar) &&
+        sixClass.classList.contains(player1Avatar) &&
+        nineClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.one').classList.contains(player1Avatar) &&
-        document.querySelector('.five').classList.contains(player1Avatar) &&
-        document.querySelector('.nine').classList.contains(player1Avatar)) {
+    } else if (oneClass.classList.contains(player1Avatar) &&
+        fiveClass.classList.contains(player1Avatar) &&
+        nineClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.three').classList.contains(player1Avatar) &&
-        document.querySelector('.five').classList.contains(player1Avatar) &&
-        document.querySelector('.seven').classList.contains(player1Avatar)) {
+    } else if (threeClass.classList.contains(player1Avatar) &&
+        fiveClass.classList.contains(player1Avatar) &&
+        sevenClass.classList.contains(player1Avatar)) {
         winner = player1Name;
         winnerHandlingFn(winner);
         // conditions for player 2 to win
-    } else if (document.querySelector('.one').classList.contains(player2Avatar) &&
-        document.querySelector('.two').classList.contains(player2Avatar) &&
-        document.querySelector('.three').classList.contains(player2Avatar)) {
+    } else if (oneClass.classList.contains(player2Avatar) &&
+        twoClass.classList.contains(player2Avatar) &&
+        threeClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.four').classList.contains(player2Avatar) &&
-        document.querySelector('.five').classList.contains(player2Avatar) &&
-        document.querySelector('.six').classList.contains(player2Avatar)) {
+    } else if (fourClass.classList.contains(player2Avatar) &&
+        fiveClass.classList.contains(player2Avatar) &&
+        sixClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.seven').classList.contains(player2Avatar) &&
-        document.querySelector('.eight').classList.contains(player2Avatar) &&
-        document.querySelector('.nine').classList.contains(player2Avatar)) {
+    } else if (sevenClass.classList.contains(player2Avatar) &&
+        eightClass.classList.contains(player2Avatar) &&
+        nineClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.one').classList.contains(player2Avatar) &&
-        document.querySelector('.four').classList.contains(player2Avatar) &&
-        document.querySelector('.seven').classList.contains(player2Avatar)) {
+    } else if (oneClass.classList.contains(player2Avatar) &&
+        fourClass.classList.contains(player2Avatar) &&
+        sevenClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.two').classList.contains(player2Avatar) &&
-        document.querySelector('.five').classList.contains(player2Avatar) &&
-        document.querySelector('.eight').classList.contains(player2Avatar)) {
+    } else if (twoClass.classList.contains(player2Avatar) &&
+        fiveClass.classList.contains(player2Avatar) &&
+        eightClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.three').classList.contains(player2Avatar) &&
-        document.querySelector('.six').classList.contains(player2Avatar) &&
-        document.querySelector('.nine').classList.contains(player2Avatar)) {
+    } else if (threeClass.classList.contains(player2Avatar) &&
+        sixClass.classList.contains(player2Avatar) &&
+        nineClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.one').classList.contains(player2Avatar) &&
-        document.querySelector('.five').classList.contains(player2Avatar) &&
-        document.querySelector('.nine').classList.contains(player2Avatar)) {
+    } else if (oneClass.classList.contains(player2Avatar) &&
+        fiveClass.classList.contains(player2Avatar) &&
+        nineClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
-    } else if (document.querySelector('.three').classList.contains(player2Avatar) &&
-        document.querySelector('.five').classList.contains(player2Avatar) &&
-        document.querySelector('.seven').classList.contains(player2Avatar)) {
+    } else if (threeClass.classList.contains(player2Avatar) &&
+        fiveClass.classList.contains(player2Avatar) &&
+        sevenClass.classList.contains(player2Avatar)) {
         winner = player2Name;
         winnerHandlingFn(winner);
     } else if(counter === 9 && winner === null) {
         nilGame = 1;
-        document.querySelector('.generalMessage').textContent = `It's a draw! Try again!`;
+        generalMessage.textContent = `It's a draw! Try again!`;
     }
 }
 
@@ -178,7 +225,7 @@ var handleClick = function (event) {
     var boxClicked = event.target;
     if ((boxClicked.classList.contains(player1Avatar)) || (boxClicked.classList.contains(player2Avatar)) || (boxClicked.querySelector('img') !== null)) {
         console.log('already clicked')
-        document.querySelector('.generalMessage').textContent = `This cell is already selected!`;
+        generalMessage.textContent = `This cell is already selected!`;
         return;
     }
     if(playingPlayer === player1Name) {
@@ -192,7 +239,7 @@ var handleClick = function (event) {
         audioP1.play();
         checkWinner();
         playingPlayer = player2Name;
-        document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
+        currentPlayerClass.textContent = `${playingPlayer} is playing`;
     } else {
         if(imgP2){
             var imgTag = document.createElement('img')
@@ -204,7 +251,7 @@ var handleClick = function (event) {
         audioP2.play();
         checkWinner();
         playingPlayer = player1Name;
-        document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
+        currentPlayerClass.textContent = `${playingPlayer} is playing`;
     }
     if((counter === 9) || winner !== null) {     // check for winner
         gameFinished = 1;      
@@ -221,10 +268,10 @@ var resetGame = function (){
         player1Score = 0;
         player2Score = 0;
     }
-    document.querySelector('.winner').style.color = 'lightgray';
-    document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
-    document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
-    document.querySelector('.generalMessage').textContent = ``;
+    winnerClass.style.color = 'lightgray';
+    currentPlayerClass.textContent = `${playingPlayer} is playing`;
+    displayScoreClass.textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
+    generalMessage.textContent = ``;
     allDivs.forEach(function(div){
         div.classList.remove(player1Avatar)
         div.classList.remove(player2Avatar)
@@ -235,29 +282,29 @@ var resetGame = function (){
 }
 
 var p1Name = function () {
-    if(document.querySelector('.player1NameInput').value === player2Name) {
-        document.querySelector('.generalMessage').textContent = `This name has already been taken!`;
+    if(player1NameInputClass.value === player2Name) {
+        generalMessage.textContent = `This name has already been taken!`;
         return;
-    } else if(document.querySelector('.player1NameInput').value === '') {
+    } else if(player1NameInputClass.value === '') {
         player1Name = "Player 1"
     } else {
-        player1Name = document.querySelector('.player1NameInput').value;
+        player1Name = player1NameInputClass.value;
         playingPlayer = player1Name;
     }
-    document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
-    document.querySelector('.currentPlayer').textContent = `${playingPlayer} is playing`;
+    displayScoreClass.textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
+    currentPlayerClass.textContent = `${playingPlayer} is playing`;
 }
 
 var p2Name = function () {
-    if(document.querySelector('.player2NameInput').value === player1Name) {
-        document.querySelector('.generalMessage').textContent = `This name has already been taken!`;
+    if(player2NameInputClass.value === player1Name) {
+        generalMessage.textContent = `This name has already been taken!`;
         return;
-    } else if (document.querySelector('.player2NameInput').value === '') {
+    } else if (player2NameInputClass.value === '') {
         player2Name = "Player 2"
     } else {
-        player2Name = document.querySelector('.player2NameInput').value;
+        player2Name = player2NameInputClass.value;
     }
-    document.querySelector('.displayScore').textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
+    displayScoreClass.textContent = `${player1Name} = ${player1Score}, ${player2Name} = ${player2Score}`;
 }
 
 var handleP1AvatarClick = function (event) {
@@ -289,7 +336,7 @@ var handleP2AvatarClick = function (event) {
 
 var selP1Avatar = function () {
     if(player1Avatar === 'cross' && !counter && !imgP1) {
-        document.querySelector('.avatars').style.display = 'grid';
+        avatarsClass.style.display = 'grid';
         allAvatars.forEach(function(avatar){
             avatar.removeEventListener('click', handleP2AvatarClick)
             avatar.addEventListener('click', handleP1AvatarClick);
@@ -301,7 +348,7 @@ var selP1Avatar = function () {
 
 var selP2Avatar = function () {
     if(player2Avatar === 'circle' && !counter && !imgP2) {
-        document.querySelector('.avatars').style.display = 'grid';
+        avatarsClass.style.display = 'grid';
         allAvatars.forEach(function(avatar){
             avatar.removeEventListener('click', handleP1AvatarClick)
             avatar.addEventListener('click', handleP2AvatarClick);
@@ -322,7 +369,7 @@ var resetAvatar = function () {
             avatar.removeEventListener('click', handleP1AvatarClick)
             avatar.removeEventListener('click', handleP2AvatarClick)
         });
-        document.querySelectorAll('.cell').forEach(function(el) {
+        cellClass.forEach(function(el) {
             el.style.opacity = 1;
         });
     }
@@ -332,12 +379,15 @@ allDivs.forEach(function(div){
     div.addEventListener('click', handleClick);
 });
 
+
+startBtn.addEventListener('click', startGame);
+homeBtn.addEventListener('click', home);
 resetBtn.addEventListener('click', resetGame);
 submitGameBtn.addEventListener('click', handleNumGames);
 submitP1Btn.addEventListener('click', p1Name)
 submitP2Btn.addEventListener('click', p2Name)
-selectP1AvatarBtn.addEventListener('click', selP1Avatar);
-selectP2AvatarBtn.addEventListener('click', selP2Avatar);
+// selectP1AvatarBtn.addEventListener('click', selP1Avatar);
+// selectP2AvatarBtn.addEventListener('click', selP2Avatar);
 resetAvatarBtn.addEventListener('click', resetAvatar);
 
 //===============================================================================
@@ -345,16 +395,10 @@ resetAvatarBtn.addEventListener('click', resetAvatar);
 
 'use strict';
 
-var personaliseAvBtn = document.querySelector('.personaliseAvatar');
-const video = document.getElementById('video');
-const canvas1 = document.getElementById('canvas1');
-const canvas2 = document.getElementById('canvas2');
-const snap1 = document.getElementById("snap1");
-const snap2 = document.getElementById("snap2");
-const errorMsgElement = document.querySelector('span#errorMsg');
-const picSize = 100;
 
-const constraints = {
+var picSize = 100;
+
+var constraints = {
   audio: false,
   video: {
     width: picSize, height: picSize
@@ -406,7 +450,7 @@ snap2.addEventListener("click", function() {
 //===============================================================================
 // Arrow key function
 
-var keyControlTracking = 5;
+var keyboardTracking = 5;
 
 document.onkeydown = checkKey;
 
