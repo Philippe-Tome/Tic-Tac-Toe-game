@@ -1,4 +1,11 @@
 
+// reset games entries, not clearing all yet.
+// styling second page
+// stopping the video recording
+// style the entry submit button
+// display shadded P1 when selecting avatar
+
+
 var randomStart = 1;
 var player1Avatar = 'cross';
 var player2Avatar = 'circle';
@@ -52,7 +59,7 @@ var canvas2 = document.getElementById('canvas2');
 var snap1 = document.getElementById("snap1");
 var snap2 = document.getElementById("snap2");
 var errorMsgElement = document.querySelector('span#errorMsg');
-
+var numberGamesClass = document.querySelector('.numberGames');
 
 
 // var selectP1AvatarBtn = document.querySelector('.p1Select');
@@ -66,7 +73,7 @@ var audioResAv = new Audio('./sound/resAv.mp3');
 var audioThankYou = new Audio('./sound/thankYou.wav');
 var audioCamera = new Audio('./sound/camera.mp3');
 
-
+console.log(numberOfGames);
 
 // firstPage.style.display = 'none';
 secondPage.style.display = 'none';
@@ -83,18 +90,22 @@ var startGame = function() {
 }
 
 var home = function() {
+    resetGame();
     firstPage.style.display = 'block';
     secondPage.style.display = 'none';
 }
 
 var handleNumGames = function () {
-    numberOfGames = Number(numberOfGames.value);
+    p1Name();
+    p2Name();
+    numberOfGames = Number(numberGamesClass.value);
+    console.log(numberOfGames);
     if(numberOfGames === 0) {
         numberOfGames = 1;
     } else if(numberOfGames > 1) {
         match = 1;
     }
-    console.log(numberOfGames);
+    // console.log(numberOfGames);
     displayGameLeft.textContent = `Games left = ${numberOfGames}`;
 }
 
@@ -308,19 +319,16 @@ var p2Name = function () {
 }
 
 var handleP1AvatarClick = function (event) {
-    if(player1Avatar === 'cross'){
-        var avatarClicked = event.target;
-        if((`avatar${avatarClicked.dataset.avatar}`) === player2Avatar) {
-            console.log('avatar already selected');
-            return;
-        } else {
-        avatarClicked.style.opacity = '0.3';
-        player1Avatar = `avatar${avatarClicked.dataset.avatar}`;
-        audioP1 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
-        }
-    } return;
+    var avatarClicked = event.target;
+    avatarClicked.style.opacity = '0.3';
+    player1Avatar = `avatar${avatarClicked.dataset.avatar}`;
+    audioP1 = new Audio(`./sound/av${avatarClicked.dataset.avatar}.wav`);
+    allAvatars.forEach(function(avatar){
+        avatar.addEventListener('click', handleP2AvatarClick);
+        avatar.removeEventListener('click', handleP1AvatarClick)
+    });
 }
-
+   
 var handleP2AvatarClick = function (event) {
     if(player2Avatar === 'circle') {
         var avatarClicked = event.target;
@@ -334,39 +342,19 @@ var handleP2AvatarClick = function (event) {
     } return;
 }
 
-var selP1Avatar = function () {
-    if(player1Avatar === 'cross' && !counter && !imgP1) {
-        avatarsClass.style.display = 'grid';
-        allAvatars.forEach(function(avatar){
-            avatar.removeEventListener('click', handleP2AvatarClick)
-            avatar.addEventListener('click', handleP1AvatarClick);
-        });
-    } else {
-        return;
-    }
-}
-
-var selP2Avatar = function () {
-    if(player2Avatar === 'circle' && !counter && !imgP2) {
-        avatarsClass.style.display = 'grid';
-        allAvatars.forEach(function(avatar){
-            avatar.removeEventListener('click', handleP1AvatarClick)
-            avatar.addEventListener('click', handleP2AvatarClick);
-        });
-    } else {
-        return;
-    }
-}
 
 var resetAvatar = function () {
     if(!counter) {
         audioResAv.play();
+        player1Name = 'Player 1';
+        player2Name = 'Player 2';
         player1Avatar = 'cross';
         player2Avatar = 'circle';
+        numberOfGames = 1;
         imgP1 = 0;
         imgP2 = 0;
         allAvatars.forEach(function(avatar){
-            avatar.removeEventListener('click', handleP1AvatarClick)
+            avatar.addEventListener('click', handleP1AvatarClick);
             avatar.removeEventListener('click', handleP2AvatarClick)
         });
         cellClass.forEach(function(el) {
@@ -379,15 +367,14 @@ allDivs.forEach(function(div){
     div.addEventListener('click', handleClick);
 });
 
+allAvatars.forEach(function(avatar){
+    avatar.addEventListener('click', handleP1AvatarClick);
+});
 
 startBtn.addEventListener('click', startGame);
 homeBtn.addEventListener('click', home);
 resetBtn.addEventListener('click', resetGame);
 submitGameBtn.addEventListener('click', handleNumGames);
-submitP1Btn.addEventListener('click', p1Name)
-submitP2Btn.addEventListener('click', p2Name)
-// selectP1AvatarBtn.addEventListener('click', selP1Avatar);
-// selectP2AvatarBtn.addEventListener('click', selP2Avatar);
 resetAvatarBtn.addEventListener('click', resetAvatar);
 
 //===============================================================================
