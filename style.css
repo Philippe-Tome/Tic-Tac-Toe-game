@@ -1,3 +1,11 @@
+  
+  @media only screen and (min-width: 600px) {
+    body {
+      padding: 5px 20%;
+      background-color: lightgray;
+    }
+  }
+  
 body {
     background-color: lightgray;
 }
@@ -27,7 +35,7 @@ p {
     margin-bottom: 5px;
 }
 
-.resetAvatar {
+.resetEntries {
     inline-size: -webkit-fill-available;
     background-color: grey;
     border: 2px black solid;
@@ -35,6 +43,16 @@ p {
 }
 
 .inputs {
+    margin: 0 auto;
+    inline-size: fit-content;
+}
+
+.currentPlayer {
+    margin: 0 auto;
+    inline-size: fit-content;
+}
+
+.displayScore {
     margin: 0 auto;
     inline-size: fit-content;
 }
@@ -55,25 +73,82 @@ p {
 }
 
 .containerLeft {
-    /* float: left; */
-    margin-left: 20%;
+    margin: 0 auto;
+    inline-size: fit-content;
 }
 
-/* .avatarSelect {
-    float: right;
-    margin-right: 20%;
-} */
+.player1NameInput {
+    inline-size: -webkit-fill-available;
+}
+
+.player2NameInput {
+    inline-size: -webkit-fill-available;
+}
+
+.numberGames {
+        inline-size: -webkit-fill-available;
+}
+
+.submitGames {
+    inline-size: -webkit-fill-available;
+    background-color: #e3d5e3;
+}
+
+.resetBtn {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+.homeBtn {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+.displayGameLeft {
+    margin: 0 auto;
+    inline-size: fit-content;
+}
 
 .wrapper {
+    border: white solid 2px ;
     display: grid;
     /* background-color: white; */
     grid-template-columns: repeat(3, 100px);
+    /* grid-template-columns: repeat(3, 1fr); */
     grid-template-rows: repeat(3, 100px);
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+    height: 300px;
+    width: 300px;
+    margin: 10px auto;
 }
 
 .cell{
     border: white solid 2px ;
+}
+
+.personaliseAvatar {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+#snap1 {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
+}
+
+#snap2 {
+    inline-size: -webkit-fill-available;
+    background-color: grey;
+    border: 2px black solid;
+    margin-bottom: 5px;
 }
 
 .avatars {
@@ -90,8 +165,8 @@ p {
     display: inline-block;
 }
 .heading {
-    display: inline;
-    padding: 10px;
+    margin: 0 auto;
+    inline-size: fit-content
 }
 
 .cross{

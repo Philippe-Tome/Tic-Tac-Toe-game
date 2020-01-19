@@ -1,9 +1,12 @@
 
-// reset games entries, not clearing all yet.
-// styling second page
-// stopping the video recording
-// style the entry submit button
-// display shadded P1 when selecting avatar
+// remove black preview when stop recording. Change logic to start recording and stop at each player.
+// refactor solutions
+// add arrow key play function
+
+// **reset games entries, not clearing all yet.
+// **styling second page
+// **style the entry submit button
+// **stopping the video recording
 
 
 var randomStart = 1;
@@ -31,7 +34,7 @@ var resetBtn = document.querySelector('.resetBtn');
 var submitGameBtn = document.querySelector('.submitGames');
 var submitP1Btn = document.querySelector('.submitP1Name');
 var submitP2Btn = document.querySelector('.submitP2Name');
-var resetAvatarBtn = document.querySelector('.resetAvatar');
+var resetEntriesBtn = document.querySelector('.resetEntries');
 var firstPage = document.querySelector('.firstPage');
 var secondPage = document.querySelector('.secondPage');
 var displayGameLeft = document.querySelector('.displayGameLeft');
@@ -62,8 +65,6 @@ var errorMsgElement = document.querySelector('span#errorMsg');
 var numberGamesClass = document.querySelector('.numberGames');
 
 
-// var selectP1AvatarBtn = document.querySelector('.p1Select');
-// var selectP2AvatarBtn = document.querySelector('.p2Select');
 
 var audioError = new Audio('./sound/error_sound.mp3');
 var audioP1 = new Audio('./sound/default1.wav');
@@ -73,9 +74,7 @@ var audioResAv = new Audio('./sound/resAv.mp3');
 var audioThankYou = new Audio('./sound/thankYou.wav');
 var audioCamera = new Audio('./sound/camera.mp3');
 
-console.log(numberOfGames);
 
-// firstPage.style.display = 'none';
 secondPage.style.display = 'none';
 
 displayGameLeft.style.color = 'lightgray';
@@ -105,7 +104,6 @@ var handleNumGames = function () {
     } else if(numberOfGames > 1) {
         match = 1;
     }
-    // console.log(numberOfGames);
     displayGameLeft.textContent = `Games left = ${numberOfGames}`;
 }
 
@@ -343,13 +341,16 @@ var handleP2AvatarClick = function (event) {
 }
 
 
-var resetAvatar = function () {
+var resetEntries = function () {
     if(!counter) {
         audioResAv.play();
         player1Name = 'Player 1';
         player2Name = 'Player 2';
         player1Avatar = 'cross';
         player2Avatar = 'circle';
+        player1NameInputClass.value = "";
+        player2NameInputClass.value = "";
+        numberGamesClass.value = null;
         numberOfGames = 1;
         imgP1 = 0;
         imgP2 = 0;
@@ -375,7 +376,7 @@ startBtn.addEventListener('click', startGame);
 homeBtn.addEventListener('click', home);
 resetBtn.addEventListener('click', resetGame);
 submitGameBtn.addEventListener('click', handleNumGames);
-resetAvatarBtn.addEventListener('click', resetAvatar);
+resetEntriesBtn.addEventListener('click', resetEntries);
 
 //===============================================================================
 // Video
@@ -406,8 +407,25 @@ async function init() {
 
 // Success
 function handleSuccess(stream) {
-  window.stream = stream;
-  video.srcObject = stream;
+    window.stream = stream;
+    video.srcObject = stream;
+    var track = stream.getTracks()[0];  // if only one media track
+
+    snap1.addEventListener("click", function() {
+    audioCamera.play();
+        if(counter === 0){
+            context1.drawImage(video, 0, 0, picSize, picSize);
+            imgP1 = canvas1.toDataURL();
+        }
+    });
+    snap2.addEventListener("click", function() {
+    audioCamera.play();
+        if(counter === 0) {
+            context2.drawImage(video, 0, 0, picSize, picSize);
+            imgP2 = canvas2.toDataURL();
+            track.stop();
+        }
+    });
 }
 
 context1 = canvas1.getContext('2d');
@@ -417,22 +435,38 @@ context2 = canvas2.getContext('2d');
 personaliseAvBtn.addEventListener('click', init);
 
 
-// Draw image
-snap1.addEventListener("click", function() {
-    audioCamera.play();
-    if(counter === 0){
-        context1.drawImage(video, 0, 0, picSize, picSize);
-        imgP1 = canvas1.toDataURL();
-        }
-});
-snap2.addEventListener("click", function() {
-    audioCamera.play();
-    if(counter === 0) {
-        context2.drawImage(video, 0, 0, picSize, picSize);
-        imgP2 = canvas2.toDataURL();
-    }
-});
+// // Draw image
+// snap1.addEventListener("click", function() {
+//     audioCamera.play();
+//     if(counter === 0){
+//         context1.drawImage(video, 0, 0, picSize, picSize);
+//         imgP1 = canvas1.toDataURL();
+//         }
+// });
+// snap2.addEventListener("click", function() {
+//     audioCamera.play();
+//     if(counter === 0) {
+//         context2.drawImage(video, 0, 0, picSize, picSize);
+//         imgP2 = canvas2.toDataURL();
+//     }
+// });
 
+// var testBtn = document.querySelector('.testBtn');
+// testBtn.addEventListener("click", stopMedia)
+
+// function stopMedia () {
+//     navigator.getUserMedia({audio: false, video: true},
+//         function(stream) {
+//             // can also use getAudioTracks() or getVideoTracks()
+//             var track = stream.getTracks()[0];  // if only one media track
+//             // ...
+//             track.stop();
+//         },
+//         function(error){
+//             console.log('getUserMedia() error', error);
+//     });
+        
+// }
 
 //===============================================================================
 // Arrow key function
