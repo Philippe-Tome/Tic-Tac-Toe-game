@@ -7,8 +7,7 @@
 4. Challenges
 5. Lessons
 
-
-**1. HOW TO PLAY:**
+### 1. HOW TO PLAY:
 
 If you haven't had a chance to play Tic Tac Toe yet here is a quick description on how to play:
 
@@ -20,7 +19,7 @@ Have Fun!
 
 
 
-**2. DEVELOPMENT**
+### 2. DEVELOPMENT
 
 * Technologies Used:
 * Html
@@ -41,7 +40,7 @@ I was very interestd on exploring new things in Javascript and decided to focus 
 
 
 
-**3. PROBLEMS:**
+### 3. PROBLEMS:
 #### Fixed problems:
 * Avatar selection: For the avatar selection I faced few challenges to make sure that no player could have the same avatar but still give a chance to the second player to choose his/her avatar first. Because of that I decided to get the players to select which player number they whished to be and then listen for a click on the avatar.
 I also had to make sure that if they did not want an avatar the game would then assign the default cross and circle symbol.
@@ -61,14 +60,13 @@ I also decided to assign default sound effects to personalise avatar.
 
 
 
-**4. CHALLENGES:**
+### 4. CHALLENGES:
 Each new features added its amount of bugs with it. Much more than anticipated.
 
 
 
-**5. LESSONS:**
+### 5. LESSONS:
 Knowing all the requirements from the beginning is very important.
 When I decided to add all the extra features for the fun I realised that I could have done things differently to help for their additions. 
 
 The architecture of the logic is very important. I'm glad I decided to split my code with multiple meaningful functions that were giving me some flexibility to add further things into them when needed.
-
