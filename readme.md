@@ -5,8 +5,7 @@
 2. Development
 3. Problems
 4. Challenges
-5. Toys!
-6. Lessons
+5. Lessons
 
 **1. HOW TO PLAY:**
 
@@ -21,10 +20,12 @@ Have Fun!
 
 
 **2. DEVELOPMENT**
-Technologies Used:
-Html
-CSS
-Javascript
+
+* Technologies Used:
+* Html
+* CSS
+* Javascript
+
 Planning:
 i: I started to write pseudocode to highlight the minimum features and functions required. 
 
