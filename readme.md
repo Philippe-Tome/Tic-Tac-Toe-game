@@ -1,5 +1,5 @@
 # TIC TAC TOE
-**Click here to play: https://keuspastis.github.io/Tic-Tac-Toe-game/
+**Click here to play: https://keuspastis.github.io/Tic-Tac-Toe-game/**
 
 1. How to Play
 2. Development
