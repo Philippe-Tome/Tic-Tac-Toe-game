@@ -7,6 +7,7 @@
 4. Challenges
 5. Lessons
 
+
 **1. HOW TO PLAY:**
 
 If you haven't had a chance to play Tic Tac Toe yet here is a quick description on how to play:
